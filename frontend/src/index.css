@@ -1,7 +1,36 @@
 @import "tailwindcss";
 
 @theme {
-  --color-theme: #253537;
-  --color-background: #D9D9D9;
-  --color-text: #D9D9D9;
+  --color-theme: #171717;
+  --color-background: #e6e6e6;
+  --color-card: #ffffff;
+  --color-nav-text: #e6e6e6;
+  --color-text: #171717;
+}
+
+/* For line clamping in notification messages */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Custom scrollbar for notifications */
+.max-h-80::-webkit-scrollbar {
+    width: 6px;
+}
+
+.max-h-80::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.max-h-80::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.max-h-80::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1;
 }
