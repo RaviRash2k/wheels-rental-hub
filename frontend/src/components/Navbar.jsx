@@ -9,7 +9,7 @@ const Navbar = () => {
     const navigation = useNavigate()
     const location = useLocation();
     const [nav, setNav] = useState('/')
-    const [token, setToken] = useState(false);
+    const [token, setToken] = useState(true);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
     const [isNotiDropdownOpen, setIsNotiDropdownOpen] = useState(false);
@@ -47,7 +47,7 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-theme text-nav-text shadow-lg">
 
         {/* navbar */}
-        <div className="w-full flex items-center h-16 justify-between px-8">
+        <div className="container flex items-center h-16 justify-between mx-auto px-4">
             {/* left */}
             <div className="flex items-center space-x-4">
                 {/* mobile menu */}
@@ -69,7 +69,7 @@ const Navbar = () => {
             <div className="hidden lg:flex items-center space-x-8">
                 <p onClick={()=> {navigation('/')}} className={`hover:text-white transition-colors font-medium relative after:absolute after:bottom-[-2px] after:left-0 after:w-0 after:h-0.5 after:bg-nav-text after:transition-all after:duration-300 hover:after:w-full ${nav === '/' ? 'after:w-full' : 'after:w-0'}`}>Home</p>
                 <p onClick={()=> {navigation('/about')}} className={`hover:text-white transition-colors font-medium relative after:absolute after:bottom-[-2px] after:left-0 after:w-0 after:h-0.5 after:bg-nav-text after:transition-all after:duration-300 hover:after:w-full ${nav === '/about' ? 'after:w-full' : 'after:w-0'}`}>About</p>
-                <p onClick={()=> {navigation('/contact')}} className={`hover:text-white transition-colors font-medium relative after:absolute after:bottom-[-2px] after:left-0 after:w-0 after:h-0.5 after:bg-nav-text after:transition-all after:duration-300 hover:after:w-full ${nav === '/contact' ? 'after:w-full' : 'after:w-0'}`}>Contact</p>
+                <p onClick={()=> {navigation('/cars')}} className={`hover:text-white transition-colors font-medium relative after:absolute after:bottom-[-2px] after:left-0 after:w-0 after:h-0.5 after:bg-nav-text after:transition-all after:duration-300 hover:after:w-full ${nav === '/cars' ? 'after:w-full' : 'after:w-0'}`}>Cars</p>
                 <p onClick={()=> {navigation('/my-bookings')}} className={`hover:text-white transition-colors font-medium relative after:absolute after:bottom-[-2px] after:left-0 after:w-0 after:h-0.5 after:bg-nav-text after:transition-all after:duration-300 hover:after:w-full ${token ? 'block' : 'hidden'} ${nav === '/my-bookings' ? 'after:w-full' : 'after:w-0'}`}>My Bookings</p>
             </div>
 
@@ -237,10 +237,10 @@ const Navbar = () => {
 
                     {/* nav items */}
                     <div className='font-medium'>
-                        <p className="px-5 py-4 hover:bg-gray-800 transition-colors cursor-pointer" onClick={()=> {navigation('/')}}>Home</p>
-                        <p className="px-5 py-4 hover:bg-gray-800 transition-colors cursor-pointer" onClick={()=> {navigation('/about')}}>About</p>
-                        <p className="px-5 py-4 hover:bg-gray-800 transition-colors cursor-pointer" onClick={()=> {navigation('/contact')}}>Contact</p>
-                        <p className={`px-5 py-4 hover:bg-gray-800 transition-colors cursor-pointer ${token ? 'block' : 'hidden'}`} onClick={()=> {navigation('/my-bookings')}}>My Bookings</p>
+                        <p className="px-5 py-4 hover:bg-gray-800 transition-colors cursor-pointer" onClick={()=> {navigation('/'); setIsMobileMenuOpen(false)}}>Home</p>
+                        <p className="px-5 py-4 hover:bg-gray-800 transition-colors cursor-pointer" onClick={()=> {navigation('/about'); setIsMobileMenuOpen(false)}}>About</p>
+                        <p className="px-5 py-4 hover:bg-gray-800 transition-colors cursor-pointer" onClick={()=> {navigation('/cars'); setIsMobileMenuOpen(false)}}>Cars</p>
+                        <p className={`px-5 py-4 hover:bg-gray-800 transition-colors cursor-pointer ${token ? 'block' : 'hidden'}`} onClick={()=> {navigation('/my-bookings'); setIsMobileMenuOpen(false)}}>My Bookings</p>
                     </div>
 
                     <hr className="m-2 border-gray-200" />
