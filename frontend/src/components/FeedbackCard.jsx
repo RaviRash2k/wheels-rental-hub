@@ -20,7 +20,7 @@ const feedbackCard = ({ feedback }) => {
       </div>
 
       {/* rating */}
-      <div className="flex gap-1 mt-4 text-text/60">
+      <div className="flex gap-1 mt-4 text-yellow-400">
         {[...Array(5)].map((_, i) => (
           <Star key={i} size={16} fill="currentColor" />
         ))}

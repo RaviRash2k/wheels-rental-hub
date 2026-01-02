@@ -1,61 +1,23 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
+
+// components
 import CarCard from '../components/CarCard'
 import TuktukCard from '../components/TukTukCard'
 import BikeCard from '../components/BikeCard'
 import FeedbackCard from '../components/FeedbackCard'
+import { useUiStore } from '../../store/UiStore'
+import { vehicles } from '../assets/assets'
 
 // other images
-import hero from '../assets/hero.jpg'
-import home from '../assets/home.jpg'
 import luxry from '../assets/luxry.jpg'
 import pixel from '../assets/pixel.jpg'
 
-// car images
-import toyotacorolla from '../assets/toyotacorolla.jpg'
-import hondacivic from '../assets/hondacivic.jpg'
-import fordmustang from '../assets/fordmustang.jpg'
-import chevroletspark from '../assets/chevroletspark.jpg'
-import nissanaltima from '../assets/nissanaltima.jpg'
-
-// tuktuk images
-import bajajre from '../assets/Bajajre.jpg'
-import tvsking from '../assets/tvsking.jpg'
-import piaggioape from '../assets/piaggioape.jpg'
-import atulauto from '../assets/atulauto.jpg'
-import mahindraalfa from '../assets/mahindraalfa.jpg'
-
-// bike images
-import fz from '../assets/fz.jpg'
-import hondacb500 from '../assets/hondacb500.jpg'
-import ktm from '../assets/ktm.jpg'
-import gixxer from '../assets/gixxer.jpg'
-import pulzer from '../assets/pulzer.jpg'
-
 const Home = () => {
 
-    const cars = [
-        { name: "Toyota Corolla", type: "Sedan", year: 2021, price: 300, location: "Galle", seats: 4, fuel: "Diesel", image: toyotacorolla },
-        { name: "Honda Civic", type: "Sedan", year: 2020, price: 350, location: "Colombo", seats: 4, fuel: "Petrol", image: hondacivic },
-        { name: "Ford Mustang", type: "Coupe", year: 2019, price: 500, location: "Kandy", seats: 4, fuel: "Petrol", image: fordmustang },
-        { name: "Chevrolet Spark", type: "Hatchback", year: 2022, price: 250, location: "Negombo", seats: 4, fuel: "Diesel", image: chevroletspark },
-        { name: "Nissan Altima", type: "Sedan", year: 2021, price: 320, location: "Jaffna", seats: 4, fuel: "Petrol", image: nissanaltima }
-    ]
+    const navigate = useNavigate();
+    const { vehicleType, setVehicleType } = useUiStore();
 
-    const tuktuks = [
-        { name: "Bajaj RE", price: 150, location: "Colombo", fuel: "Petrol", image: bajajre },
-        { name: "TVS King", price: 180, location: "Galle", fuel: "Petrol", image: tvsking },
-        { name: "Piaggio Ape", price: 160, location: "Kandy", fuel: "Diesel", image: piaggioape },
-        { name: "Mahindra Alfa", price: 170, location: "Negombo", fuel: "Diesel", image: mahindraalfa },
-        { name: "Atul Auto", price: 155, location: "Jaffna", fuel: "Petrol", image: atulauto }
-    ]
-
-    const bikes = [
-        { name: "Yamaha FZ", year: 2020, price: 80, location: "Colombo", image: fz },
-        { name: "Honda CB500", year: 2019, price: 90, location: "Galle", image: hondacb500 },
-        { name: "KTM Duke", year: 2021, price: 100, location: "Kandy", image: ktm },
-        { name: "Suzuki Gixxer", year: 2022, price: 85, location: "Negombo", image: gixxer },
-        { name: "Bajaj Pulsar", year: 2018, price: 75, location: "Jaffna", image: pulzer }
-    ]
 
     const feedbacks = [
         { name: "John Doe", location: "Colombo", image: pixel, rating: 5, feedback: "Great service and well-maintained vehicles. Highly recommend!" },
@@ -81,7 +43,7 @@ const Home = () => {
                         Cars
                     </h2>
 
-                    <button className="self-center sm:self-auto px-4 py-2 border rounded-md text-sm sm:text-base hover:bg-theme hover:text-nav-text transition-colors">
+                    <button onClick={() => {navigate("/vehicles"); setVehicleType("Cars")}} className="self-center sm:self-auto px-4 py-2 border rounded-md text-sm sm:text-base hover:bg-theme hover:text-nav-text transition-colors">
                         Explore all cars
                     </button>
 
@@ -90,9 +52,10 @@ const Home = () => {
                 {/* card */}
                 <div className="flex gap-6 overflow-x-auto pb-8 pt-4 scrollbar-hide flex-nowrap">
 
-                    {cars.map((car, index) => (
-                        <CarCard key={index} car={car} />   
+                    {vehicles.filter(v => v.type === "car").slice(0, 5).map((car, index) => (
+                        <CarCard key={index} car={car} />
                     ))}
+
                 </div> 
             </div>
 
@@ -105,7 +68,7 @@ const Home = () => {
                         Tuk tuks
                     </h2>
 
-                    <button className="self-center sm:self-auto px-4 py-2 border rounded-md text-sm sm:text-base hover:bg-theme hover:text-nav-text transition-colors">
+                    <button onClick={() => {navigate("/vehicles"); setVehicleType("Tuktuks")}} className="self-center sm:self-auto px-4 py-2 border rounded-md text-sm sm:text-base hover:bg-theme hover:text-nav-text transition-colors">
                         Explore all tuk tuks
                     </button>
 
@@ -114,8 +77,8 @@ const Home = () => {
                 {/* card */}
                 <div className="flex gap-6 overflow-x-auto pb-6 pt-4 scrollbar-hide flex-nowrap">
 
-                    {tuktuks.map((tuktuk, index) => (
-                        <TuktukCard key={index} tuktuk={tuktuk} />   
+                    {vehicles.filter(v => v.type === "tuktuk").slice(0, 5).map((tuktuk, index) => (
+                        <TuktukCard key={index} tuktuk={tuktuk} /> 
                     ))}
                 </div> 
             </div>
@@ -129,7 +92,7 @@ const Home = () => {
                         Bikes
                     </h2>
 
-                    <button className="self-center sm:self-auto px-4 py-2 border rounded-md text-sm sm:text-base hover:bg-theme hover:text-nav-text transition-colors">
+                    <button onClick={() => {navigate("/vehicles"); setVehicleType("Bikes")}} className="self-center sm:self-auto px-4 py-2 border rounded-md text-sm sm:text-base hover:bg-theme hover:text-nav-text transition-colors">
                         Explore all bikes
                     </button>
 
@@ -138,9 +101,10 @@ const Home = () => {
                 {/* card */}
                 <div className="flex gap-6 overflow-x-auto pb-8 pt-4 scrollbar-hide flex-nowrap">
 
-                    {bikes.map((bike, index) => (
-                        <BikeCard key={index} bike={bike} />   
+                    {vehicles.filter(v => v.type === "bike").slice(0, 5).map((bike, index) => (
+                        <BikeCard key={index} bike={bike} /> 
                     ))}
+
                 </div> 
             </div>
         </div>
@@ -157,7 +121,6 @@ const Home = () => {
                 ))}
             </div>
         </div>
-
 
     </div>
   )
