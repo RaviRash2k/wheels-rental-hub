@@ -1,10 +1,17 @@
 import React from 'react'
 import { Fuel, MapPin } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 const TuktukCard = ({ tuktuk }) => {
+
+  const navigate = useNavigate()
+
   return (
-    <div className="min-w-[280px] sm:min-w-[320px] lg:min-w-[280px] xl:min-w-[18%] bg-card rounded-2xl shadow-xl overflow-hidden flex flex-col
-                    transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl/20">
+    <div 
+        className="min-w-[280px] sm:min-w-[320px] lg:min-w-[280px] xl:min-w-[18%] bg-card rounded-2xl shadow-xl overflow-hidden flex flex-col
+                  transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl/20"
+        onClick={() => {navigate(`/vehicle/${tuktuk.id}`)}}
+      >
 
       {/* image (fixed size) */}
       <div className="w-full h-44">

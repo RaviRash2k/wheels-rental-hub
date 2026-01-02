@@ -7,6 +7,7 @@ import TuktukCard from '../components/TukTukCard'
 import BikeCard from '../components/BikeCard'
 import FeedbackCard from '../components/FeedbackCard'
 import { useUiStore } from '../../store/UiStore'
+import { dataStore } from "../../store/dataStore"
 import { vehicles } from '../assets/assets'
 
 // other images
@@ -18,6 +19,7 @@ const Home = () => {
     const navigate = useNavigate();
     const { vehicleType, setVehicleType } = useUiStore();
 
+    // const {vehicles, setVehicles} = dataStore();
 
     const feedbacks = [
         { name: "John Doe", location: "Colombo", image: pixel, rating: 5, feedback: "Great service and well-maintained vehicles. Highly recommend!" },

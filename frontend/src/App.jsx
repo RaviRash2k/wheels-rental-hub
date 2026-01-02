@@ -6,6 +6,7 @@ import About from './pages/About'
 import Vehicles from './pages/Vehicles'
 import MyBookings from './pages/MyBookings'
 import Footer from './components/Footer'
+import VehicleInfo from './pages/VehicleInfo'
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/vehicles" element={<Vehicles />} />
         <Route path="/mybookings" element={<MyBookings />} />
+        <Route path="/vehicle/:id" element={<VehicleInfo />} />
       </Routes>
 
       <Footer/>

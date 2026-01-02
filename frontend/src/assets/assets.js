@@ -22,6 +22,7 @@ import pulzer from './pulzer.jpg'
 export const vehicles = [
   // Cars
   {
+    id: "c1",
     type: "car",
     name: "Toyota Corolla",
     vehicleType: "Sedan",
@@ -33,6 +34,7 @@ export const vehicles = [
     image: toyotacorolla
   },
   {
+    id: "c2",
     type: "car",
     name: "Honda Civic",
     vehicleType: "Sedan",
@@ -44,6 +46,7 @@ export const vehicles = [
     image: hondacivic
   },
   {
+    id: "c3",
     type: "car",
     name: "Ford Mustang",
     vehicleType: "Coupe",
@@ -55,6 +58,7 @@ export const vehicles = [
     image: fordmustang
   },
   {
+    id: "c4",
     type: "car",
     name: "Chevrolet Spark",
     vehicleType: "Hatchback",
@@ -66,6 +70,7 @@ export const vehicles = [
     image: chevroletspark
   },
   {
+    id: "c5",
     type: "car",
     name: "Nissan Altima",
     vehicleType: "Sedan",
@@ -79,6 +84,7 @@ export const vehicles = [
 
   // Tuk Tuks
   {
+    id: "t1",
     type: "tuktuk",
     name: "Bajaj RE",
     price: 150,
@@ -87,6 +93,7 @@ export const vehicles = [
     image: bajajre
   },
   {
+    id: "t2",
     type: "tuktuk",
     name: "TVS King",
     price: 180,
@@ -95,6 +102,7 @@ export const vehicles = [
     image: tvsking
   },
   {
+    id: "t3",
     type: "tuktuk",
     name: "Piaggio Ape",
     price: 160,
@@ -103,6 +111,7 @@ export const vehicles = [
     image: piaggioape
   },
   {
+    id: "t4",
     type: "tuktuk",
     name: "Mahindra Alfa",
     price: 170,
@@ -111,6 +120,7 @@ export const vehicles = [
     image: mahindraalfa
   },
   {
+    id: "t5",
     type: "tuktuk",
     name: "Atul Auto",
     price: 155,
@@ -121,6 +131,7 @@ export const vehicles = [
 
   // Bikes
   {
+    id: "b1",
     type: "bike",
     name: "Yamaha FZ",
     year: 2020,
@@ -129,6 +140,7 @@ export const vehicles = [
     image: fz
   },
   {
+    id: "b2",
     type: "bike",
     name: "Honda CB500",
     year: 2019,
@@ -137,6 +149,7 @@ export const vehicles = [
     image: hondacb500
   },
   {
+    id: "b3",
     type: "bike",
     name: "KTM Duke",
     year: 2021,
@@ -145,6 +158,7 @@ export const vehicles = [
     image: ktm
   },
   {
+    id: "b4",
     type: "bike",
     name: "Suzuki Gixxer",
     year: 2022,
@@ -153,6 +167,7 @@ export const vehicles = [
     image: gixxer
   },
   {
+    id: "b5",
     type: "bike",
     name: "Bajaj Pulsar",
     year: 2018,
