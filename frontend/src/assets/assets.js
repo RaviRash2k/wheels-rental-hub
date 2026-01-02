@@ -161,3 +161,15 @@ export const vehicles = [
     image: pulzer
   }
 ]
+
+export const options = [
+    "Cars", "Bikes", "Tuktuks"
+]
+
+export const fuels = [
+    "Fuel", "Petrol", "Diesel"
+]
+
+export const locations = [
+    "Location", "loc 1", "loc 2", "Galle"
+]

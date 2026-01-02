@@ -3,7 +3,7 @@ import { Search, ChevronDown } from "lucide-react"
 import { useUiStore } from "../../store/UiStore"
 import { dataStore } from "../../store/dataStore"
 import CarCard from "../components/CarCard"
-import { vehicles } from "../assets/assets"
+import { vehicles, options ,locations, fuels } from "../assets/assets"
 import BikeCard from "../components/BikeCard"
 import TuktukCard from "../components/TukTukCard"
 
@@ -18,11 +18,14 @@ const Vehicles = () => {
   const [locationOpen, setLocationOpen] = useState(false)
   const [fuelOpen, setFuelOpen] = useState(false)
 
-  // const { vehicles, setVehicles } = dataStore()
+  const [search, setSearch] = useState("")
 
-  const options = ["Cars", "Bikes", "Tuktuks"]
-  const fuels = ["Fuel", "Petrol", "Diesel"]
-  const locations = ["Location", "loc 1", "loc 2", "Galle"]
+  // const { vehicles, setVehicles } = dataStore()
+  
+  //search change
+  const onSearchChange = (e) => {
+    setSearch(e.target.value);
+  };
 
   return (
     <div className="bg-background min-h-screen pt-16">
@@ -53,6 +56,9 @@ const Vehicles = () => {
             <Search className="text-text/60" />
             <input
               type="text"
+              name="search"
+              value={search}
+              onChange={onSearchChange}
               placeholder="Search vehicles..."
               className="w-full bg-transparent outline-none text-sm xl:text-base"
             />
@@ -193,7 +199,8 @@ const Vehicles = () => {
                     v =>
                       v.type === "car" &&
                       (location === "Location" || v.location === location) &&
-                      (fuel === "Fuel" || v.fuel === fuel)
+                      (fuel === "Fuel" || v.fuel === fuel) &&
+                      v.name.toLowerCase().includes(search.toLowerCase())
                   )
                   .map((car, index) => (
                     <CarCard key={index} car={car} />
@@ -220,7 +227,8 @@ const Vehicles = () => {
                   .filter(
                     v =>
                       v.type === "bike" &&
-                      (location === "Location" || v.location === location)
+                      (location === "Location" || v.location === location) &&
+                      v.name.toLowerCase().includes(search.toLowerCase())
                   )
                   .map((bike, index) => (
                     <BikeCard key={index} bike={bike} />
@@ -249,7 +257,8 @@ const Vehicles = () => {
                     v =>
                       v.type === "tuktuk" &&
                       (location === "Location" || v.location === location) &&
-                      (fuel === "Fuel" || v.fuel === fuel)
+                      (fuel === "Fuel" || v.fuel === fuel) &&
+                      v.name.toLowerCase().includes(search.toLowerCase())
                   )
                   .map((tuktuk, index) => (
                     <TuktukCard key={index} tuktuk={tuktuk} />
