@@ -6,9 +6,13 @@ import About from './pages/About'
 import Vehicles from './pages/Vehicles'
 import MyBookings from './pages/MyBookings'
 import AdminDashBoard from './pages/admin/AdminDashBoard'
+import AddVehicle from './pages/admin/AddVehicle'
+import ManageVehicles from './pages/admin/ManageVehicles'
+import ManageBookings from './pages/admin/ManageBookings'
 import Footer from './components/Footer'
 import VehicleInfo from './pages/VehicleInfo'
 import { authStore } from '../store/authStore'
+import Sidebar from './components/admin/Sidebar'
 
 const App = () => {
 
@@ -17,11 +21,16 @@ const App = () => {
   return (
     <>
         {user?.role === "admin" ?
-          <>
+          <div className='flex'>
+            <Sidebar/>
+
             <Routes>
               <Route path='/' element={<AdminDashBoard/>}/>
+              <Route path='/admin/add-vehicle' element={<AddVehicle/>}/>
+              <Route path='/admin/vehicles' element={<ManageVehicles/>}/>
+              <Route path='/admin/bookings' element={<ManageBookings/>}/>
             </Routes>
-          </>
+          </div>
           :
           <>
             <Navbar />
