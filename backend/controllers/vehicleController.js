@@ -30,4 +30,39 @@ const addVehicle = async (req, res) => {
     
 }
 
-export {addVehicle}
+//get all vehicles
+const getVehicles = async (req, res) => {
+    
+    try {
+        const vehicles = await vehicleModel.find();
+        res.json({success:true, data: vehicles})
+        
+    } catch (error) {
+        console.log(error)
+        res.json({success: false, message: "error"});
+    }
+}
+
+//update vehicle
+const updateVehicle = async (req, res) => {
+
+}
+
+//delete vehicle
+const deleteVehicle = async (req, res) => {
+    const id = req.body;
+
+    try {
+        const vehicle = await vehicleModel.findById(id)
+        fs.unlink(`uploads/vehicles/${vehicle.image}`, ()=>{})
+
+        await vehicleModel.findByIdAndDelete(id)
+        res.json({success:true, message:"Vehicle Deleted!"})
+
+    } catch (error) {
+        console.log(error)
+        res.json({success:false, message:"Delete error!"})
+    }
+}
+
+export {addVehicle, getVehicles, updateVehicle, deleteVehicle}
