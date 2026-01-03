@@ -3,16 +3,21 @@ import logo from '../assets/logo.png'
 import default_profile from '../assets/default_profile.jpg'
 import { Menu, X, Bell, LogOut, Settings, LayoutDashboard, Calendar } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useUiStore } from '../../store/UiStore';
+import { authStore } from '../../store/authStore';
+import Sign from './Sign';
 
 const Navbar = () => {
 
     const navigation = useNavigate()
     const location = useLocation();
     const [nav, setNav] = useState('/')
-    const [token, setToken] = useState(true);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
     const [isNotiDropdownOpen, setIsNotiDropdownOpen] = useState(false);
+
+    const {signPopup, setSignPopup, setSignState} = useUiStore();
+    const {token} = authStore();
 
     //dummy notification data
     const notification = [
@@ -77,8 +82,8 @@ const Navbar = () => {
             <div className='items-center'>
                 {!token ? 
                     <div className='flex space-x-4'>
-                        <button className='hidden lg:block px-4 py-2 font-medium bg-theme'>Sign In</button>
-                        <button className='px-4 py-2 font-medium rounded-md bg-nav-text text-theme'>Sign Up</button>
+                        <button onClick={() => {setSignPopup(!signPopup); setSignState("login")}} className='hidden lg:block px-4 py-2 font-medium bg-theme'>Sign In</button>
+                        <button onClick={() => {setSignPopup(!signPopup); setSignState("register")}} className='px-4 py-2 font-medium rounded-md bg-nav-text text-theme'>Sign Up</button>
                     </div>
                     :
                     <div className='flex items-center space-x-1 lg:space-x-5'>
@@ -221,7 +226,7 @@ const Navbar = () => {
                         <div className='flex'>
                             <div>
                                 <p className="font-medium mb-2">Welcome Guest</p>
-                                <button className='px-4 py-2 bg-nav-text text-theme rounded-md text-center font-medium'>Sign In</button>
+                                <button onClick={() => setSignPopup(!signPopup)} className='px-4 py-2 bg-nav-text text-theme rounded-md text-center font-medium'>Sign In</button>
                             </div>
                         </div>
                         )}
@@ -269,6 +274,11 @@ const Navbar = () => {
                     )}
                 </div>
             </>
+        )}
+
+        {/* sign popup */}
+        {signPopup && (
+            <Sign />
         )}
 
     </nav>
