@@ -3,6 +3,7 @@ import cors from 'cors';
 import { conn } from './configs/db.js';
 import 'dotenv/config'
 import userRoute from './routes/userRoute.js';
+import vehicleRoute from './routes/vehicleRoute.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -16,6 +17,8 @@ conn();
 
 //routes
 app.use('/api/user', userRoute);
+app.use('/api/vehicle', vehicleRoute);
+app.use('/images', express.static('uploads'))
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

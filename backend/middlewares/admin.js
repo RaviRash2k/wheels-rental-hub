@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import user from '../models/userModel.js';
 
-export const protect = async (req, res, next) => {
+export const admin = async (req, res, next) => {
 
   try {
     // Get token from header
@@ -17,7 +17,7 @@ export const protect = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     const currentUser = await user.findById(decoded.id).select("-password");
-    if (!currentUser) {
+    if (!currentUser || currentUser.role !== "admin") {
       return res.status(401).json({ message: "User not found" });
     }
 

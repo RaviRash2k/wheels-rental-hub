@@ -27,6 +27,17 @@ pids/
 *.seed
 *.pid.lock
 
+# Ignore all upload files
+uploads/**
+
+# But keep these folders
+!uploads/profile/
+!uploads/vehicles/
+
+# Keep placeholder files
+!uploads/profile/.gitkeep
+!uploads/vehicles/.gitkeep
+
 # Misc
 coverage/
 .nyc_output/
