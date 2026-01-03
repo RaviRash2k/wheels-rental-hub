@@ -17,7 +17,7 @@ const Navbar = () => {
     const [isNotiDropdownOpen, setIsNotiDropdownOpen] = useState(false);
 
     const {signPopup, setSignPopup, setSignState} = useUiStore();
-    const {token} = authStore();
+    const {token, user, Logout} = authStore();
 
     //dummy notification data
     const notification = [
@@ -88,7 +88,7 @@ const Navbar = () => {
                     :
                     <div className='flex items-center space-x-1 lg:space-x-5'>
                         <Bell size={24} onClick={() => {setIsNotiDropdownOpen(!isNotiDropdownOpen); setIsProfileDropdownOpen(false)}} className="cursor-pointer hover:text-white transition-colors" />
-                        <img src={default_profile} onClick={() => {setIsProfileDropdownOpen(!isProfileDropdownOpen); setIsNotiDropdownOpen(false)}} className="hidden lg:block w-8 h-8 rounded-full ml-2" />
+                        <img src={user.profileImage? user.profileImage : default_profile} onClick={() => {setIsProfileDropdownOpen(!isProfileDropdownOpen); setIsNotiDropdownOpen(false)}} className="hidden lg:block w-8 h-8 rounded-full ml-2" />
                     </div>
                 } 
             </div>
@@ -98,10 +98,10 @@ const Navbar = () => {
         {isProfileDropdownOpen && (
         <div className="absolute hidden lg:block right-10 text-[14px] xl:text-[19px] mt-2 w-50 lg:w-80 bg-card text-text rounded-lg shadow-xl z-50 py-2">
             <div className="px-4 py-2 flex items-center space-x-3">
-                <img src={default_profile} className="w-10 h-10 rounded-full ml-2" />
+                <img src={user.profileImage? user.profileImage : default_profile} className="w-10 h-10 rounded-full ml-2" />
                 <div>
-                    <p className="font-semibold">John Doe</p>
-                    <p className="text-sm text-gray-600">john@example.com</p>
+                    <p className="font-semibold">{user.name}</p>
+                    <p className="text-sm text-gray-600">{user.email}</p>
                 </div>
             </div>
 
@@ -122,7 +122,15 @@ const Navbar = () => {
 
             <hr className="my-2 border-gray-200" />
 
-            <div className="flex items-center space-x-4 px-6 py-2 hover:bg-gray-100 transition-colors">
+            <div 
+                className="flex items-center space-x-4 px-6 py-2 hover:bg-gray-100 transition-colors" 
+                onClick={() => {
+                if (window.confirm("Are you sure you want to logout?")) {
+                    Logout();
+                    window.location.reload(); // refresh page
+                }
+                }}
+            >
                 <LogOut size={18} />
                 <p>Logout</p>
             </div>
@@ -215,10 +223,10 @@ const Navbar = () => {
                         {token ? (
                         <>
                             <div className='flex items-center space-x-1 lg:space-x-5'>
-                                <img src={default_profile} className="w-10 h-10 rounded-full ml-2" />
+                                <img src={user.profileImage? user.profileImage : default_profile} className="w-10 h-10 rounded-full ml-2" />
                                 <div className="px-2">
-                                    <p className="font-semibold">John Doe</p>
-                                    <p className="text-sm text-gray-600">john@example.com</p>
+                                    <p className="font-semibold">{user.name}</p>
+                                    <p className="text-sm text-gray-600">{user.email}</p>
                                 </div>
                             </div>
                         </>
@@ -265,7 +273,15 @@ const Navbar = () => {
 
                             <hr className="m-2 border-gray-200" />
 
-                            <div className="flex items-center font-medium space-x-3 px-5 py-4 hover:bg-gray-100 transition-colors">
+                            <div 
+                                className="flex items-center font-medium space-x-3 px-5 py-4 hover:bg-gray-100 transition-colors"
+                                onClick={() => {
+                                    if (window.confirm("Are you sure you want to logout?")) {
+                                        Logout();
+                                        window.location.reload(); // refresh page
+                                    }
+                                }}
+                            >
                                 <LogOut size={18} />
                                 <p>Logout</p>
                             </div>
