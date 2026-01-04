@@ -45,7 +45,23 @@ const getVehicles = async (req, res) => {
 
 //update vehicle
 const updateVehicle = async (req, res) => {
+    const { id, ...updateData } = req.body;
 
+    try {
+        const updatedVehicle = await vehicleModel.findByIdAndUpdate(
+            id, updateData, { new: true }
+        );
+
+        if (!updatedVehicle) {
+            return res.json({ success: false, message: "Vehicle not found!" });
+        }
+
+        res.json({ success: true, message: "Vehicle updated!" });
+        
+    } catch (error) {
+        console.log(error)
+        res.json({ success: false, message: "Update error!" })
+    }
 }
 
 //delete vehicle
@@ -65,4 +81,19 @@ const deleteVehicle = async (req, res) => {
     }
 }
 
-export {addVehicle, getVehicles, updateVehicle, deleteVehicle}
+//get vehicle by id
+const getVehicleById = async (req, res) => {
+
+    const id = req.params.id;
+
+    try {
+        const vehicle = await vehicleModel.findById(id)
+        res.status(200).json({success:true, data: vehicle})
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({success:false, data: "error"})
+    }
+}
+
+export {addVehicle, getVehicles, updateVehicle, deleteVehicle, getVehicleById}

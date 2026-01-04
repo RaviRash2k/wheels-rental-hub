@@ -18,7 +18,7 @@ conn();
 //routes
 app.use('/api/user', userRoute);
 app.use('/api/vehicle', vehicleRoute);
-app.use('/images', express.static('uploads'))
+app.use('/api/images', express.static('uploads'))
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

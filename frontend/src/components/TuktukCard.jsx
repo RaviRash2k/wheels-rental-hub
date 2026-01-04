@@ -1,22 +1,24 @@
 import React from 'react'
 import { Fuel, MapPin } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { dataStore } from '../store/dataStore'
 
 const TuktukCard = ({ tuktuk }) => {
 
   const navigate = useNavigate()
+  const {imageURL} = dataStore()
 
   return (
     <div 
         className="min-w-[280px] sm:min-w-[320px] lg:min-w-[280px] xl:min-w-[18%] bg-card rounded-2xl shadow-xl overflow-hidden flex flex-col
                   transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl/20"
-        onClick={() => {navigate(`/vehicle/${tuktuk.id}`)}}
+        onClick={() => {navigate(`/vehicle/${tuktuk._id}`)}}
       >
 
       {/* image (fixed size) */}
       <div className="w-full h-44">
         <img
-          src={tuktuk.image}
+          src={`${imageURL}/vehicles/${tuktuk.image}`}
           className="w-full h-full object-cover"
           alt={tuktuk.name}
         />

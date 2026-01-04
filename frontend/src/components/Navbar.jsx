@@ -3,8 +3,8 @@ import logo from '../assets/logo.png'
 import default_profile from '../assets/default_profile.jpg'
 import { Menu, X, Bell, LogOut, Settings, LayoutDashboard, Calendar } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useUiStore } from '../../store/UiStore';
-import { authStore } from '../../store/authStore';
+import { useUiStore } from '../store/uiStore';
+import { authStore } from '../store/authStore';
 import Sign from './Sign';
 
 const Navbar = () => {

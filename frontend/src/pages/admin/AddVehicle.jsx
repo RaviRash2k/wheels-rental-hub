@@ -31,7 +31,19 @@ const AddVehicle = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(formData)
+    
+    const data = new FormData();
+    data.append("name", formData.name);
+    data.append("type", formData.type);
+    data.append("price", formData.price);
+    data.append("year", formData.year);
+    data.append("location", formData.location);
+    data.append("fuel", formData.fuel);
+    data.append("seats", formData.seats);
+    data.append("description", formData.description);
+    data.append("image", formData.image);
+
+    // const response = await 
   }
 
   return (
@@ -74,7 +86,7 @@ const AddVehicle = () => {
               value={formData.name}
               onChange={handleChange}
               className="w-full p-3 rounded-lg border bg-background"
-              placeholder="Toyota Prius"
+              placeholder="Vehicle name"
               required
             />
           </div>

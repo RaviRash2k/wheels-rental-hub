@@ -1,23 +1,25 @@
 import React from 'react'
 import { MapPin, Calendar } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { dataStore } from '../store/dataStore'
 
 
 const BikeCard = ({ bike }) => {
 
   const navigate = useNavigate()
+  const {imageURL} = dataStore()
   
   return (
     <div 
         className="min-w-[280px] sm:min-w-[320px] lg:min-w-[280px] xl:min-w-[18%] bg-card rounded-2xl shadow-xl overflow-hidden flex flex-col
                         transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl/20"
-        onClick={() => {navigate(`/vehicle/${bike.id}`)}}
+        onClick={() => {navigate(`/vehicle/${bike._id}`)}}
     >
 
       {/* image (fixed size) */}
       <div className="w-full h-44">
         <img
-          src={bike.image}
+          src={`${imageURL}/vehicles/${bike.image}`}
           className="w-full h-full object-cover"
           alt={bike.name}
         />

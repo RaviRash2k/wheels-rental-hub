@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useUiStore } from '../../store/UiStore';
-import { authStore } from '../../store/authStore';
+import { useUiStore } from '../store/uiStore';
+import { authStore } from '../store/authStore';
 import axios from 'axios';
 
 const Sign = () => {

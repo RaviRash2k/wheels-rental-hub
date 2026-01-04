@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from "react";
 import { useNavigate } from 'react-router-dom'
 
 // components
@@ -6,9 +6,9 @@ import CarCard from '../components/CarCard'
 import TuktukCard from '../components/TukTukCard'
 import BikeCard from '../components/BikeCard'
 import FeedbackCard from '../components/FeedbackCard'
-import { useUiStore } from '../../store/UiStore'
-import { dataStore } from "../../store/dataStore"
-import { vehicles } from '../assets/assets'
+import { useUiStore } from '../store/uiStore'
+import { dataStore } from "../store/dataStore"
+import Loading from "../components/Loading";
 
 // other images
 import luxry from '../assets/luxry.jpg'
@@ -18,8 +18,12 @@ const Home = () => {
 
     const navigate = useNavigate();
     const { vehicleType, setVehicleType } = useUiStore();
+    const { vehicles, fetchVehicles, loading, error } = dataStore();
 
-    // const {vehicles, setVehicles} = dataStore();
+    useEffect(() => {
+        fetchVehicles();
+    }, [fetchVehicles]);
+
 
     const feedbacks = [
         { name: "John Doe", location: "Colombo", image: pixel, rating: 5, feedback: "Great service and well-maintained vehicles. Highly recommend!" },
@@ -27,6 +31,8 @@ const Home = () => {
         { name: "Michael Johnson", location: "Kandy", image: pixel, rating: 5, feedback: "Fast and reliable service. Very satisfied with the experience." }
     ]
 
+
+  if (loading) return <Loading/>;
 
   return (
     <div className="bg-background min-h-screen pt-16">

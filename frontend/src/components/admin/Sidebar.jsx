@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { Menu, X, LayoutDashboard, PlusCircle, Car, BookOpen, LogOut } from "lucide-react"
 import { useNavigate } from "react-router-dom"
-import { authStore } from "../../../store/authStore"
+import { authStore } from "../../store/authStore"
 
 const Sidebar = () => {
   const [open, setOpen] = useState(false)

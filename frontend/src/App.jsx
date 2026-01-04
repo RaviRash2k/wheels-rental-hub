@@ -11,7 +11,8 @@ import ManageVehicles from './pages/admin/ManageVehicles'
 import ManageBookings from './pages/admin/ManageBookings'
 import Footer from './components/Footer'
 import VehicleInfo from './pages/VehicleInfo'
-import { authStore } from '../store/authStore'
+import { authStore } from './store/authStore'
+import { dataStore } from './store/dataStore'
 import Sidebar from './components/admin/Sidebar'
 
 const App = () => {
