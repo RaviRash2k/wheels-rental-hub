@@ -14,6 +14,7 @@ import VehicleInfo from './pages/VehicleInfo'
 import { authStore } from './store/authStore'
 import { dataStore } from './store/dataStore'
 import Sidebar from './components/admin/Sidebar'
+import { ToastContainer } from 'react-toastify'
 
 const App = () => {
 
@@ -21,34 +22,36 @@ const App = () => {
 
   return (
     <>
-        {user?.role === "admin" ?
-          <div className='flex'>
-            <Sidebar/>
+    
+      <ToastContainer />
 
-            <Routes>
-              <Route path='/' element={<AdminDashBoard/>}/>
-              <Route path='/admin/add-vehicle' element={<AddVehicle/>}/>
-              <Route path='/admin/vehicles' element={<ManageVehicles/>}/>
-              <Route path='/admin/bookings' element={<ManageBookings/>}/>
-            </Routes>
-          </div>
-          :
-          <>
-            <Navbar />
+      {user?.role === "admin" ?
+        <div className='flex'>
+          <Sidebar/>
 
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/vehicles" element={<Vehicles />} />
-              <Route path="/mybookings" element={<MyBookings />} />
-              <Route path="/vehicle/:id" element={<VehicleInfo />} />
-            </Routes>
+          <Routes>
+            <Route path='/' element={<AdminDashBoard/>}/>
+            <Route path='/admin/add-vehicle' element={<AddVehicle/>}/>
+            <Route path='/admin/vehicles' element={<ManageVehicles/>}/>
+            <Route path='/admin/bookings' element={<ManageBookings/>}/>
+          </Routes>
+        </div>
+        :
+        <>
+          <Navbar />
 
-            <Footer/>
-          </>
-        }
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/vehicles" element={<Vehicles />} />
+            <Route path="/mybookings" element={<MyBookings />} />
+            <Route path="/vehicle/:id" element={<VehicleInfo />} />
+          </Routes>
 
-        
+          <Footer/>
+        </>
+      }
+
     </>
   )
 }

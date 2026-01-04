@@ -1,6 +1,14 @@
 import React, { useState } from "react"
+import { addVehicle } from "../../api/vehicle.api"
+import { dataStore } from "../../store/dataStore"
+import {useNavigate} from "react-router-dom"
+import { toast } from 'react-toastify';
 
 const AddVehicle = () => {
+
+  const {loading, setLoading} = dataStore();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     name: "",
     type: "",
@@ -14,10 +22,12 @@ const AddVehicle = () => {
     imagePreview: null,
   })
 
+  //onchange
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
+  //image preview
   const handleImageChange = (e) => {
     const file = e.target.files[0]
     if (!file) return
@@ -29,7 +39,9 @@ const AddVehicle = () => {
     })
   }
 
-  const handleSubmit = (e) => {
+  //submit
+  const handleSubmit = async (e) => {
+    setLoading(true)
     e.preventDefault()
     
     const data = new FormData();
@@ -43,7 +55,17 @@ const AddVehicle = () => {
     data.append("description", formData.description);
     data.append("image", formData.image);
 
-    // const response = await 
+    const response = await addVehicle(data);
+    
+    if(response.data.success){
+      navigate('/')
+      setLoading(false)
+      toast.success("Vehicle added successfully");
+
+    }else{
+      setLoading(false)
+      toast.success("Vehicle added successfully");
+    }
   }
 
   return (
@@ -158,10 +180,10 @@ const AddVehicle = () => {
                 className="w-full p-3 rounded-lg border bg-background"
               >
                 <option value="">Select fuel</option>
-                <option value="petrol">Petrol</option>
-                <option value="diesel">Diesel</option>
-                <option value="electric">Electric</option>
-                <option value="hybrid">Hybrid</option>
+                <option value="Petrol">Petrol</option>
+                <option value="Diesel">Diesel</option>
+                <option value="Electric">Electric</option>
+                <option value="Hybrid">Hybrid</option>
               </select>
             </div>
           </div>

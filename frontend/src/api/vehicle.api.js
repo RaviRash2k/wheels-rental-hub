@@ -10,3 +10,8 @@ export const getVehicles = () => {
 export const getVehicleById = (id) => {
     return axios.get(`http://localhost:3000/api/vehicle/get/${id}`);
 }
+
+//add vehicle
+export const addVehicle = (data) => {
+    return api.post('/vehicle/add-vehicle', data);
+}
