@@ -1,88 +1,49 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
+import { dataStore } from "../../store/dataStore"
+import VehiclePopup from "../../components/admin/VehiclePopup";
+import Loading from "../../components/Loading"
+import { deleteVehicle } from "../../api/vehicle.api";
 
 const ManageVehicles = () => {
-  const [typeFilter, setTypeFilter] = useState("all")
 
-  const vehicles = [
-  {
-    id: "v1",
-    name: "Toyota Corolla",
-    type: "car",
-    year: 2021,
-    price: 8500,
-    location: "Colombo",
-    fuel: "Petrol",
-    seats: 5,
-    description: "Comfortable sedan ideal for city and long-distance travel.",
-    image: "/images/corolla.jpg",
-  },
-  {
-    id: "v2",
-    name: "Honda Civic",
-    type: "car",
-    year: 2020,
-    price: 9000,
-    location: "Galle",
-    fuel: "Petrol",
-    seats: 5,
-    description: "Reliable car with excellent fuel efficiency.",
-    image: "/images/civic.jpg",
-  },
-  {
-    id: "v3",
-    name: "Yamaha FZ",
-    type: "bike",
-    year: 2022,
-    price: 3500,
-    location: "Colombo",
-    fuel: "Petrol",
-    seats: 2,
-    description: "Perfect bike for daily commuting and short trips.",
-    image: "/images/yamaha-fz.jpg",
-  },
-  {
-    id: "v4",
-    name: "Bajaj Pulsar",
-    type: "bike",
-    year: 2021,
-    price: 3200,
-    location: "Kandy",
-    fuel: "Petrol",
-    seats: 2,
-    description: "Sporty bike with smooth performance.",
-    image: "/images/pulsar.jpg",
-  },
-  {
-    id: "v5",
-    name: "Bajaj RE",
-    type: "tuktuk",
-    year: 2019,
-    price: 4500,
-    location: "Negombo",
-    fuel: "Petrol",
-    seats: 3,
-    description: "Affordable tuk tuk suitable for short city rides.",
-    image: "/images/bajaj-re.jpg",
-  },
-  {
-    id: "v6",
-    name: "TVS King",
-    type: "tuktuk",
-    year: 2020,
-    price: 4800,
-    location: "Jaffna",
-    fuel: "Petrol",
-    seats: 3,
-    description: "Spacious tuk tuk with good mileage.",
-    image: "/images/tvs-king.jpg",
-  },
-]
+  const [typeFilter, setTypeFilter] = useState("all");
+  const [selectedVehicle, setSelectedVehicle] = useState(null);
+  const [mode, setMode] = useState("view");
+  const {vehicles, fetchVehicles, loading, setLoading, imageURL, deleteVehicleInStore} = dataStore();
 
+  useEffect(() => {
+    fetchVehicles();
+  }, [fetchVehicles])
+
+  //delete api
+  const onDelete = async (id) => {
+    const ok = window.confirm("Are you sure you want to delete this vehicle?");
+    if (!ok) return;
+
+    try {
+      setLoading(true);
+
+      const response = await deleteVehicle(id);
+
+      if (response.data.success) {
+        deleteVehicleInStore(id);
+        toast.success("Vehicle deleted successfully!");
+      } else {
+        toast.error("Delete failed!");
+      }
+    } catch (error) {
+      toast.error("Something went wrong!");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const filteredVehicles =
     typeFilter === "all"
       ? vehicles
       : vehicles.filter(v => v.type === typeFilter)
+
+  if(loading) return <Loading/>;
 
   return (
     <div className="bg-background min-h-screen w-full p-4 sm:p-6">
@@ -136,7 +97,7 @@ const ManageVehicles = () => {
                     {/* image */}
                     <td className="py-3 px-2">
                       <img
-                        src={vehicle.image}
+                        src={`${imageURL}/vehicles/${vehicle.image}`}
                         alt={vehicle.name}
                         className="w-20 h-14 object-cover rounded-lg"
                       />
@@ -160,16 +121,25 @@ const ManageVehicles = () => {
                     {/* actions */}
                     <td className="py-3 px-2">
                       <div className="flex justify-center gap-2">
-                        <button className="px-3 py-1 rounded-md text-sm bg-blue-500 text-white hover:opacity-90">
+                        {/* view button */}
+                        <button 
+                          className="px-3 py-1 rounded-md text-sm bg-blue-500 text-white hover:opacity-90"
+                          onClick={() => {setSelectedVehicle(vehicle); setMode('view')}}
+                        >
                           View
                         </button>
 
-                        <button className="px-3 py-1 rounded-md text-sm bg-yellow-500 text-white hover:opacity-90">
+                        {/* update button */}
+                        <button 
+                          className="px-3 py-1 rounded-md text-sm bg-yellow-500 text-white hover:opacity-90"
+                          onClick={() => {setSelectedVehicle(vehicle); setMode('edit')}}
+                        >
                           Update
                         </button>
 
+                        {/* delete button */}
                         <button
-                          onClick={() => window.confirm("Delete this vehicle?")}
+                          onClick={() => onDelete(vehicle._id)}
                           className="px-3 py-1 rounded-md text-sm bg-red-500 text-white hover:opacity-90"
                         >
                           Delete
@@ -184,6 +154,16 @@ const ManageVehicles = () => {
         </div>
 
       </div>
+
+      {/* data popup */}
+      {selectedVehicle && (
+        <VehiclePopup
+          vehicle = {selectedVehicle}
+          onClose = {() => setSelectedVehicle(null)}
+          mode = {mode}
+          setMode = {setMode}
+        />
+      )}
     </div>
   )
 }

@@ -24,9 +24,19 @@ export const dataStore = create((set) => ({
         }
     },
 
-    //vehicle setter
-    setVehicles: (vehicles) => 
-        set({vehicles: vehicles}),
+    //update vehicle store
+    updateVehicleInStore: (updatedVehicle) =>
+        set((state) => ({
+            vehicles: state.vehicles.map((v) =>
+                v._id === updatedVehicle._id ? updatedVehicle : v
+            ),
+        })),
+
+    //delete vehicle store
+    deleteVehicleInStore: (id) =>
+        set((state) => ({
+            vehicles: state.vehicles.filter(v => v._id !== id),
+        })),
 
     //loading
     setLoading: (state) => 

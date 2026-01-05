@@ -3,6 +3,7 @@ import { addVehicle } from "../../api/vehicle.api"
 import { dataStore } from "../../store/dataStore"
 import {useNavigate} from "react-router-dom"
 import { toast } from 'react-toastify';
+import Loading from '../../components/Loading'
 
 const AddVehicle = () => {
 
@@ -67,6 +68,8 @@ const AddVehicle = () => {
       toast.success("Vehicle added successfully");
     }
   }
+
+  if (loading) return <Loading/>
 
   return (
     <div className="bg-background min-h-screen w-full p-4 sm:p-6">

@@ -45,28 +45,46 @@ const getVehicles = async (req, res) => {
 
 //update vehicle
 const updateVehicle = async (req, res) => {
-    const { id, ...updateData } = req.body;
 
+    const id = req.params.id;
+    
     try {
-        const updatedVehicle = await vehicleModel.findByIdAndUpdate(
-            id, updateData, { new: true }
-        );
+
+        const allowedUpdates = [
+            "name",
+            "type",
+            "price",
+            "year",
+            "location",
+            "fuel",
+            "seats",
+            "description",
+            "image",
+        ];
+
+        const updates = {};
+        allowedUpdates.forEach((key) => {
+            if (req.body[key] !== undefined) {
+                updates[key] = req.body[key];
+            }
+        });
+
+        const updatedVehicle = await vehicleModel.findByIdAndUpdate(id, updates, { new: true, runValidators: true });
 
         if (!updatedVehicle) {
-            return res.json({ success: false, message: "Vehicle not found!" });
+            return res.status(404).json({success: false, message: "Vehicle not found"});
         }
 
-        res.json({ success: true, message: "Vehicle updated!" });
-        
-    } catch (error) {
-        console.log(error)
-        res.json({ success: false, message: "Update error!" })
+        res.status(200).json({success: true, data: updatedVehicle});
+
+    }catch (error) {
+        res.status(500).json({success: false, message: "Failed to update vehicle", error: error.message});
     }
 }
 
 //delete vehicle
 const deleteVehicle = async (req, res) => {
-    const id = req.body;
+    const id = req.params.id;
 
     try {
         const vehicle = await vehicleModel.findById(id)

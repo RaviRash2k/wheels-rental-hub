@@ -15,3 +15,13 @@ export const getVehicleById = (id) => {
 export const addVehicle = (data) => {
     return api.post('/vehicle/add-vehicle', data);
 }
+
+//update vehicle
+export const updateVehicle = (id, data) => {
+    return api.put(`/vehicle/update/${id}`, data);
+}
+
+//delete vehicle
+export const deleteVehicle = (id) => {
+    return api.post(`/vehicle/delete/${id}`);
+}
