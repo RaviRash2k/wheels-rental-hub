@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useUiStore } from '../store/uiStore';
 import { authStore } from '../store/authStore';
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 const Sign = () => {
 
     const {signPopup, setSignPopup, signState, setSignState} = useUiStore();
     const {login} = authStore();
+    const navigate = useNavigate()
 
     // user data
     const [data, setData] = useState({
@@ -45,6 +47,9 @@ const Sign = () => {
 
             if(signState === 'login'){
                 login(response.data.token, response.data.user);
+                if(response.data.user.role === 'admin'){
+                    navigate('/')
+                }
                 setSignPopup(false)
 
             }else{

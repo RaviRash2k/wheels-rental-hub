@@ -1,5 +1,4 @@
 import React from 'react'
-import hero from '../assets/hero.jpg'
 import { Fuel, UsersRound, MapPin } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { dataStore } from '../store/dataStore'
@@ -12,12 +11,18 @@ const CarCard = ({car}) => {
   return (
     <div 
         className="min-w-[280px] sm:min-w-[320px] lg:min-w-[280px] xl:min-w-[18%] bg-card rounded-2xl shadow-xl overflow-hidden flex flex-col
-                transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl/20"
+                  transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl/20"
         onClick={() => {navigate(`/vehicle/${car._id}`)}}
     >
 
-        {/* image */}
-            <img src={`${imageURL}/vehicles/${car.image}`} className="w-full h-full object-cover" alt="" />
+        {/* image (fixed size) */}
+        <div className="w-full h-44">
+            <img
+            src={`${imageURL}/vehicles/${car.image}`}
+            className="w-full h-full object-cover"
+            alt={car.name}
+            />
+        </div>
 
         {/* details */}
         <div className="p-3 sm:p-4">

@@ -3,7 +3,7 @@ import { Search, ChevronDown } from "lucide-react"
 import { useUiStore } from "../store/uiStore"
 import { dataStore } from "../store/dataStore"
 import CarCard from "../components/CarCard"
-import { vehicles, options ,locations, fuels } from "../assets/assets"
+import { options ,locations, fuels } from "../assets/assets"
 import BikeCard from "../components/BikeCard"
 import TuktukCard from "../components/TukTukCard"
 
@@ -20,12 +20,16 @@ const Vehicles = () => {
 
   const [search, setSearch] = useState("")
 
-  // const { vehicles, setVehicles } = dataStore()
+  const { vehicles, fetchVehicles, imageURL, error, loading} = dataStore()
   
   //search change
   const onSearchChange = (e) => {
     setSearch(e.target.value);
   };
+
+  useEffect(() => {
+    fetchVehicles();
+  }, [fetchVehicles])
 
   return (
     <div className="bg-background min-h-screen pt-16">

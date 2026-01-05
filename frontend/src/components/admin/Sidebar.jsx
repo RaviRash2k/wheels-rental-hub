@@ -70,6 +70,7 @@ const Sidebar = () => {
             onClick={() => {
                 if (window.confirm("Are you sure you want to logout?")) {
                     Logout();
+                    navigate('/');
                     window.location.reload();
                 }
             }}
