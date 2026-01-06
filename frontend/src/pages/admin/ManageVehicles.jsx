@@ -63,7 +63,7 @@ const ManageVehicles = () => {
 
   return (
     <div className="bg-background min-h-screen w-full p-4 sm:p-6">
-      <div className="max-w-7xl mx-auto bg-card rounded-2xl shadow-xl p-4 sm:p-6">
+      <div className="max-w-7xl mx-auto rounded-2xl p-4 sm:p-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center mb-7 sm:justify-between">
 
           {/* title */}
@@ -82,8 +82,10 @@ const ManageVehicles = () => {
               className="
                 w-full pl-10 pr-4 py-2
                 rounded-xl
-                bg-background
-                border-none
+                bg-card
+                border
+              border-theme/50
+                shadow-xl/20
                 text-sm
                 focus:outline-none
                 focus:ring-2 focus:ring-theme/40
@@ -95,37 +97,39 @@ const ManageVehicles = () => {
         
 
         {/* table */}
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm sm:text-base border-collapse">
-            <thead>
-              <tr className="border-b text-left text-text/70">
-
-                <th className="py-3 px-2">Image</th>
-                <th className="py-3 px-2">Name</th>
-
-                {/* type filter */}
-                <th className="py-3 px-2">
+        <div className="bg-card rounded-xl shadow-xl/10 overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="bg-theme text-nav-text">
+              <tr>
+                <th className="p-4 text-left">Image</th>
+                <th className="p-4 text-left">Name</th>
+                <th className="p-4 text-center">
                   <select
                     value={typeFilter}
                     onChange={(e) => setTypeFilter(e.target.value)}
-                    className="bg-background border rounded-md px-2 py-1"
+                    className="
+                      bg-theme text-nav-text
+                      px-3 py-1 rounded-md
+                      text-xs font-semibold
+                      focus:outline-none
+                      cursor-pointer
+                    "
                   >
-                    <option value="all">All types</option>
+                    <option value="all">All</option>
                     <option value="car">Car</option>
                     <option value="bike">Bike</option>
                     <option value="tuktuk">Tuk Tuk</option>
                   </select>
                 </th>
-
-                <th className="py-3 px-2">Price / day</th>
-                <th className="py-3 px-2 text-center">Actions</th>
+                <th className="p-4 text-center">Price / day</th>
+                <th className="p-4 text-center">Actions</th>
               </tr>
             </thead>
 
             <tbody>
               {filteredVehicles.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="py-6 text-center text-text/60">
+                  <td colSpan="5" className="p-6 text-center text-text/60">
                     No vehicles found
                   </td>
                 </tr>
@@ -133,59 +137,54 @@ const ManageVehicles = () => {
                 filteredVehicles.map((vehicle) => (
                   <tr
                     key={vehicle.id}
-                    className="border-b last:border-none hover:bg-black/5 transition"
+                    className="border-b last:border-none hover:bg-background transition"
                   >
                     {/* image */}
-                    <td className="py-3 px-2">
+                    <td className="p-4">
                       <img
                         src={`${imageURL}/vehicles/${vehicle.image}`}
                         alt={vehicle.name}
-                        className="w-20 h-14 object-cover rounded-lg"
+                        className="w-24 h-16 object-cover rounded-lg"
                       />
                     </td>
 
                     {/* name */}
-                    <td className="py-3 px-2 font-medium">
+                    <td className="p-4 font-medium">
                       {vehicle.name}
                     </td>
 
                     {/* type */}
-                    <td className="py-3 px-2 capitalize">
+                    <td className="p-4 text-center capitalize">
                       {vehicle.type}
                     </td>
 
                     {/* price */}
-                    <td className="py-3 px-2">
+                    <td className="p-4 text-center font-semibold">
                       Rs. {vehicle.price}
                     </td>
 
                     {/* actions */}
-                    <td className="py-3 px-2">
-                      <div className="flex justify-center gap-2">
-                        {/* view button */}
-                        <button 
-                          className="px-3 py-1 rounded-md text-sm bg-blue-500 text-white hover:opacity-90"
-                          onClick={() => {setSelectedVehicle(vehicle); setMode('view')}}
-                        >
-                          View
-                        </button>
+                    <td className="p-4 flex gap-2 justify-center">
+                      <button
+                        className="px-3 py-1 text-xs rounded-md bg-blue-600 text-white hover:opacity-90"
+                        onClick={() => { setSelectedVehicle(vehicle); setMode("view") }}
+                      >
+                        View
+                      </button>
 
-                        {/* update button */}
-                        <button 
-                          className="px-3 py-1 rounded-md text-sm bg-yellow-500 text-white hover:opacity-90"
-                          onClick={() => {setSelectedVehicle(vehicle); setMode('edit')}}
-                        >
-                          Update
-                        </button>
+                      <button
+                        className="px-3 py-1 text-xs rounded-md bg-yellow-600 text-white hover:opacity-90"
+                        onClick={() => { setSelectedVehicle(vehicle); setMode("edit") }}
+                      >
+                        Update
+                      </button>
 
-                        {/* delete button */}
-                        <button
-                          onClick={() => onDelete(vehicle._id)}
-                          className="px-3 py-1 rounded-md text-sm bg-red-500 text-white hover:opacity-90"
-                        >
-                          Delete
-                        </button>
-                      </div>
+                      <button
+                        className="px-3 py-1 text-xs rounded-md bg-red-600 text-white hover:opacity-90"
+                        onClick={() => onDelete(vehicle._id)}
+                      >
+                        Delete
+                      </button>
                     </td>
                   </tr>
                 ))
