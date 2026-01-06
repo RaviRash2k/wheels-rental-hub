@@ -3,12 +3,14 @@ import { dataStore } from "../../store/dataStore"
 import VehiclePopup from "../../components/admin/VehiclePopup";
 import Loading from "../../components/Loading"
 import { deleteVehicle } from "../../api/vehicle.api";
+import {Search} from 'lucide-react'
 
 const ManageVehicles = () => {
 
   const [typeFilter, setTypeFilter] = useState("all");
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const [mode, setMode] = useState("view");
+  const [search, setSearch] = useState("");
   const {vehicles, fetchVehicles, loading, setLoading, imageURL, deleteVehicleInStore} = dataStore();
 
   useEffect(() => {
@@ -38,20 +40,59 @@ const ManageVehicles = () => {
     }
   };
 
-  const filteredVehicles =
-    typeFilter === "all"
-      ? vehicles
-      : vehicles.filter(v => v.type === typeFilter)
+  //on Search Change
+  const onSearchChange = (e) => {
+    setSearch(e.target.value)
+  }
+
+  //filter with type and search
+  const filteredVehicles = vehicles.filter(v => {
+    const q = search.toLowerCase();
+
+    const matchSearch =
+      v.name.toLowerCase().includes(q) ||
+      v._id.toString().toLowerCase().includes(q);
+
+    const matchType =
+      typeFilter === "all" || v.type === typeFilter;
+
+    return matchSearch && matchType;
+  });
 
   if(loading) return <Loading/>;
 
   return (
     <div className="bg-background min-h-screen w-full p-4 sm:p-6">
       <div className="max-w-7xl mx-auto bg-card rounded-2xl shadow-xl p-4 sm:p-6">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center mb-7 sm:justify-between">
 
-        <h1 className="text-2xl sm:text-3xl font-bold text-theme mb-6">
-          Manage Vehicles
-        </h1>
+          {/* title */}
+          <h1 className="text-2xl sm:text-3xl font-bold text-theme">
+            Manage Vehicles
+          </h1>
+
+          {/* search */}
+          <div className="relative w-full sm:w-72">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text/50" size={18} />
+            <input
+              type="text"
+              placeholder="Search by name or ID..."
+              onChange={onSearchChange}
+              value={search}
+              className="
+                w-full pl-10 pr-4 py-2
+                rounded-xl
+                bg-background
+                border-none
+                text-sm
+                focus:outline-none
+                focus:ring-2 focus:ring-theme/40
+              "
+            />
+          </div>
+
+        </div>
+        
 
         {/* table */}
         <div className="overflow-x-auto">
