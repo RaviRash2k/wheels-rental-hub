@@ -14,6 +14,7 @@ const VehicleInfo = () => {
   const { id } = useParams();
   const {imageURL, loading, setLoading} = dataStore();
 
+  //fetch data by id
   useEffect(() => {
     const fetchVehicle = async () => {
 
@@ -28,6 +29,10 @@ const VehicleInfo = () => {
 
     fetchVehicle();
     }, [id]);
+
+    useEffect(()=>{
+        console.log(startDate)
+    }, [startDate])
 
 
   const unavailableDates = [
