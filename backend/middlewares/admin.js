@@ -18,7 +18,7 @@ export const admin = async (req, res, next) => {
 
     const currentUser = await user.findById(decoded.id).select("-password");
     if (!currentUser || currentUser.role !== "admin") {
-      return res.status(401).json({ message: "User not found" });
+      return res.status(401).json({ message: "Unauthorized!" });
     }
 
     req.user = currentUser;
