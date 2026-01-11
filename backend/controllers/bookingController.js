@@ -48,8 +48,8 @@ const createBooking = async (req, res) => {
         const booking = await bookingModel.create({
         user: userId,
         vehicle: vehicleId,
-        startDate,
-        endDate,
+        startDate: new Date(startDate).toISOString().split("T")[0],
+        endDate: new Date(endDate).toISOString().split("T")[0],
         totalPrice
         });
 
@@ -301,7 +301,7 @@ const adminEditBooking = async (req, res) => {
 const adminViewBookings = async (req, res) => {
     try {
         //find bookings
-        const bookings = await bookingModel.find().sort({ createdAt: -1 });
+        const bookings = await bookingModel.find().populate("user", "-password").populate("vehicle").sort({ createdAt: -1 });
         
         if(bookings.length === 0){
             return res.status(404).json({

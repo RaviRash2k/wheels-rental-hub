@@ -1,28 +1,7 @@
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import {Search} from 'lucide-react'
-
-const bookings = [
-  {
-    id: "b1",
-    user: "John Doe",
-    vehicle: "Toyota Corolla",
-    type: "Car",
-    startDate: "2026-01-10",
-    endDate: "2026-01-12",
-    total: 17000,
-    status: "pending",
-  },
-  {
-    id: "b2",
-    user: "Jane Smith",
-    vehicle: "Yamaha FZ",
-    type: "Bike",
-    startDate: "2026-01-05",
-    endDate: "2026-01-06",
-    total: 3500,
-    status: "approved",
-  },
-]
+import {bookingStore} from '../../store/bookingStore'
+import Loading from '../../components/Loading'
 
 const statusStyle = {
   pending: "bg-yellow-100 text-yellow-700",
@@ -33,11 +12,37 @@ const statusStyle = {
 const ManageBookings = () => {
   
   const [search, setSearch] = useState("");
+  const [vehicleFilter, setVehicleFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const {bookings, loading, error, getAllBookings} = bookingStore();
 
   //on Search Change
   const onSearchChange = (e) => {
     setSearch(e.target.value)
   }
+
+  useEffect(() => {
+    getAllBookings()
+  }, [])
+
+  //filter with type, status and search
+  const filteredBookings = bookings.filter(b => {
+    const q = search.toLowerCase();
+
+    const matchSearch =
+      b.user.name.toLowerCase().includes(q) ||
+      b.vehicle.name.toLowerCase().includes(q) ||
+      b._id.toString().toLowerCase().includes(q) ||
+      b.user._id.toString().toLowerCase().includes(q) ||
+      b.vehicle._id.toString().toLowerCase().includes(q);;
+
+    const matchVehicle = vehicleFilter === "all" || b.vehicle.type === vehicleFilter;
+    const matchStatus = statusFilter === "all" || b.status === statusFilter;
+
+    return matchSearch && matchVehicle && matchStatus;
+  });
+
+  if (loading) return <Loading/>;
 
   return (
     <div className="bg-background min-h-screen p-6 w-full">
@@ -45,7 +50,7 @@ const ManageBookings = () => {
       
         {/* title */}
         <h1 className="text-2xl sm:text-3xl font-bold text-theme">
-          Manage Vehicles
+          Manage Bookings
         </h1>
 
         {/* search */}
@@ -83,8 +88,8 @@ const ManageBookings = () => {
               {/* vehicle type */}
               <th className="p-4 text-center">
                 <select
-                  // value={typeFilter}
-                  // onChange={(e) => setTypeFilter(e.target.value)}
+                  value={vehicleFilter}
+                  onChange={(e) => setVehicleFilter(e.target.value)}
                   className="
                     bg-theme text-nav-text
                     px-3 py-1 rounded-md
@@ -107,8 +112,8 @@ const ManageBookings = () => {
               {/* status */}
               <th className="p-4 text-center">
                 <select
-                  // value={typeFilter}
-                  // onChange={(e) => setTypeFilter(e.target.value)}
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
                   className="
                     bg-theme text-nav-text
                     px-3 py-1 rounded-md
@@ -120,7 +125,7 @@ const ManageBookings = () => {
                   <option value="all">All</option>
                   <option value="pending">Pending</option>
                   <option value="approved">Approved</option>
-                  <option value="canceled">Canceled</option>
+                  <option value="cancelled">Canceled</option>
                   <option value="completed">Completed</option>
                 </select>
               </th>
@@ -130,46 +135,66 @@ const ManageBookings = () => {
           </thead>
 
           <tbody>
-            {bookings.map((b) => (
-              <tr
-                key={b.id}
-                className="border-b last:border-none hover:bg-background transition"
-              >
-                <td className="p-4">{b.user}</td>
-                <td className="p-4">{b.vehicle}</td>
-                <td className="p-4 text-center">{b.type}</td>
-                <td className="p-4 text-center">{b.startDate}</td>
-                <td className="p-4 text-center">{b.endDate}</td>
-                <td className="p-4 text-center font-semibold">
-                  Rs. {b.total}
-                </td>
-
-                <td className="p-4 text-center">
-                  <span
-                    className={`px-3 py-1 rounded-full text-xs font-semibold ${statusStyle[b.status]}`}
+            {filteredBookings.length === 0 ? (
+                <tr>
+                  <td colSpan="5" className="p-6 text-center text-text/60">
+                    No Bookings found
+                  </td>
+                </tr>
+              ) : (
+                filteredBookings.map((b) => (
+                  <tr
+                    key={b.id}
+                    className="border-b last:border-none hover:bg-background transition"
                   >
-                    {b.status}
-                  </span>
-                </td>
+                    <td className="p-4">{b.user.name}</td>
+                    <td className="p-4">{b.vehicle.name}</td>
+                    <td className="p-4 text-center">{b.vehicle.type}</td>
+                    <td className="p-4 text-center">{b.startDate}</td>
+                    <td className="p-4 text-center">{b.endDate}</td>
+                    <td className="p-4 text-center font-semibold">
+                      Rs. {b.totalPrice}
+                    </td>
 
-                <td className="p-4 flex gap-2 justify-center">
-                  {b.status === "pending" && (
-                    <>
-                      <button className="px-3 py-1 text-xs rounded-md bg-green-600 text-white hover:opacity-90">
-                        Approve
-                      </button>
-                      <button className="px-3 py-1 text-xs rounded-md bg-red-600 text-white hover:opacity-90">
-                        Decline
-                      </button>
-                    </>
-                  )}
+                    <td className="p-4 text-center">
+                      <span
+                        className={`px-3 py-1 rounded-full text-xs font-semibold ${statusStyle[b.status]}`}
+                      >
+                        {b.status}
+                      </span>
+                    </td>
 
-                  <button className="px-3 py-1 text-xs rounded-md border hover:bg-theme hover:text-nav-text transition">
-                    View
-                  </button>
-                </td>
-              </tr>
-            ))}
+                    <td className="p-4 flex gap-2 justify-center">
+                      {/* approve & decline buttons */}
+                      {b.status === "pending" && (
+                        <>
+                          <button className="px-3 py-1 text-xs rounded-md bg-green-600 text-white hover:opacity-90">
+                            Approve
+                          </button>
+                          <button className="px-3 py-1 text-xs rounded-md bg-red-600 text-white hover:opacity-90">
+                            Decline
+                          </button>
+                        </>
+                      )}
+
+                      {/* cancel button */}
+                      {b.status === "approved" && (
+                        <>
+                          <button className="px-3 py-1 text-xs rounded-md bg-red-600 text-white hover:opacity-90">
+                            Cancel
+                          </button>
+                        </>
+                      )}
+
+                      {/* view button */}
+                      <button className="px-3 py-1 text-xs rounded-md border hover:bg-theme hover:text-nav-text transition">
+                        View
+                      </button>
+                    </td>
+
+                  </tr>
+                ))
+              )}
           </tbody>
         </table>
       </div>
